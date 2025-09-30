@@ -1,0 +1,23 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-11-19T11:05:02+00:00\n"
+"PO-Revision-Date: 2019-11-19T11:05:02+00:00\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "plugins.generic.stametrics.displayName"
+msgstr "Módulo Stametrics"
+
+msgid "plugins.generic.stametrics.description"
+msgstr ""
+"Plugin de métricas y estadísticas de la revista."
+
+msgid "plugins.generic.stametrics.title"
+msgstr "Ver información del DOI en DOIBoard Crossref (by UPC)"
+

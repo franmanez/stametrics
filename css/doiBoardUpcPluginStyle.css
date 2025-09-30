@@ -1,0 +1,59 @@
+.pkp_block {
+    display: flex;
+    flex-direction: column; /* Cambiamos a columna para apilar verticalmente */
+    gap: 10px;
+}
+
+.pkp_block_title {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.pkp_block_content {
+    display: flex;
+    align-items: center; /* Alinea verticalmente al centro */
+    gap: 5px; /* Espacio entre cada item */
+}
+
+.pkp_block img {
+    height: 30px;
+}
+
+.btn-warning-custom {
+    display: inline-block;
+    background-color: #ffc107;
+    color: #000;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 0.25rem;
+    border: 1px solid #ffc107;
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.btn-warning-custom:link,
+.btn-warning-custom:visited,
+.btn-warning-custom:hover,
+.btn-warning-custom:active {
+    color: #000;
+    text-decoration: none;
+}
+
+.btn-warning-custom:hover {
+    background-color: #e0a800;
+    text-decoration: none;
+}
+
+/* segundo <a> (el DOI largo) */
+.pkp_block_content a:nth-of-type(2) {
+    max-width: 400px; /* límite visual */
+    display: inline-block; /* necesario para cortar texto */
+    white-space: nowrap; /* evita salto de línea */
+    overflow: hidden; /* oculta el exceso */
+    text-overflow: ellipsis;/* añade “…” */
+    vertical-align: middle; /* lo mantiene centrado */
+}
