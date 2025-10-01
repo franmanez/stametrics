@@ -2,10 +2,13 @@
 
 namespace APP\plugins\generic\stametrics;
 
+use APP\API\v1\stats\editorial\StatsEditorialController;
 use APP\core\Application;
 use APP\facades\Repo;
+use APP\plugins\generic\stametrics\services\SubmissionService;
 use APP\plugins\generic\stametrics\services\UserService;
 use APP\template\TemplateManager;
+use PKP\API\v1\stats\editorial\PKPStatsEditorialController;
 use PKP\controllers\page\PageHandler;
 
 class StatsPageHandler extends PageHandler
@@ -43,6 +46,11 @@ class StatsPageHandler extends PageHandler
         $templateMgr->assign('userCountAuthor', $userService->countUsersByRole($context, \Role::ROLE_ID_AUTHOR));
         $templateMgr->assign('userCountReviewer', $userService->countUsersByRole($context, \Role::ROLE_ID_REVIEWER));
         $templateMgr->assign('userCountReader', $userService->countUsersByRole($context, \Role::ROLE_ID_READER));
+
+        $submissionService = new SubmissionService();
+        $result = $submissionService->getEditorialStatsByYear($context,2025);
+
+
 
         return $templateMgr->display($this->plugin->getTemplateResource('stats.tpl'));
     }
