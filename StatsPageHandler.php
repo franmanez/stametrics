@@ -2,6 +2,9 @@
 
 namespace APP\plugins\generic\stametrics;
 
+use APP\core\Application;
+use APP\facades\Repo;
+use APP\plugins\generic\stametrics\services\UserService;
 use APP\template\TemplateManager;
 use PKP\controllers\page\PageHandler;
 
@@ -28,7 +31,18 @@ class StatsPageHandler extends PageHandler
     {
         $templateMgr = TemplateManager::getManager($request);
 
+        $request = Application::get()->getRequest();
+        $context = $request->getContext();
+        //$journal = $request->getJournal();
 
+        $userService = new UserService();
+
+        // Pasar al template
+        $templateMgr->assign('users', $userService->getUsers($context));
+        $templateMgr->assign('userCount', $userService->countUsers($context));
+        $templateMgr->assign('userCountAuthor', $userService->countUsersByRole($context, \Role::ROLE_ID_AUTHOR));
+        $templateMgr->assign('userCountReviewer', $userService->countUsersByRole($context, \Role::ROLE_ID_REVIEWER));
+        $templateMgr->assign('userCountReader', $userService->countUsersByRole($context, \Role::ROLE_ID_READER));
 
         return $templateMgr->display($this->plugin->getTemplateResource('stats.tpl'));
     }
