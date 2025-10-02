@@ -9,6 +9,7 @@ use PKP\db\DAORegistry;
 
 class SubmissionService
 {
+
     public function getEditorialStatsByYearREPO($context, int $year): array
     {
         $collector = Repo::submission()->getCollector()
@@ -32,25 +33,26 @@ class SubmissionService
 
         $stats = [
             'received' => 0,
-            'accepted' => 0,
+            'queued' => 0,
+            'published' => 0,
             'declined' => 0,
-            'inReview' => 0,
         ];
 
-        foreach ($result as $row) {
-            switch ($row->status) {
+        foreach ($result as $item) {
+            switch ($item->status) {
+                case Submission::STATUS_QUEUED:
+                    $stats['queued'] = $item->total;
+                    break;
                 case Submission::STATUS_PUBLISHED:
-                    $stats['accepted'] = $row->total;
+                    $stats['published'] = $item->total;
                     break;
                 case Submission::STATUS_DECLINED:
-                    $stats['declined'] = $row->total;
-                    break;
-                case Submission::STATUS_QUEUED:
-                    $stats['inReview'] = $row->total;
+                    $stats['declined'] = $item->total;
                     break;
             }
-            $stats['received'] += $row->total;
         }
-        return [];
+        $stats['received'] = $stats['queued'] + $stats['published'] + $stats['declined'];
+
+        return $stats;
     }
 }

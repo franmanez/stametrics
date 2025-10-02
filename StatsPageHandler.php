@@ -38,6 +38,19 @@ class StatsPageHandler extends PageHandler
         $context = $request->getContext();
         //$journal = $request->getJournal();
 
+        // Solo aquí añades CSS/JS
+        $templateMgr->addStylesheet('mi-plugin-bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');
+        $templateMgr->addStylesheet('mi-plugin-bootstrap-icons', 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css');
+        $templateMgr->addJavaScript('mi-plugin-bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js');
+        $templateMgr->addJavaScript('mi-plugin-jquery', 'https://code.jquery.com/jquery-3.7.0.min.js');
+
+
+
+        $year = (int) $request->getUserVar('year');
+        if (!$year) {
+            $year = date('Y'); // o 2025 por defecto
+        }
+
         $userService = new UserService();
 
         // Pasar al template
@@ -48,7 +61,9 @@ class StatsPageHandler extends PageHandler
         $templateMgr->assign('userCountReader', $userService->countUsersByRole($context, \Role::ROLE_ID_READER));
 
         $submissionService = new SubmissionService();
-        $result = $submissionService->getEditorialStatsByYear($context,2025);
+        $templateMgr->assign('submissions', $submissionService->getEditorialStatsByYear($context, $year));
+
+        $templateMgr->assign('year', $year);
 
 
 
