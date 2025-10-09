@@ -65,7 +65,6 @@ class StatsPageHandler extends PageHandler
         $templateMgr->assign('userCount', $userService->countUsers($context));
         $templateMgr->assign('userCountAuthor', $userService->countUsersByRole($context, \Role::ROLE_ID_AUTHOR));
         $templateMgr->assign('userCountReviewer', $userService->countUsersByRole($context, \Role::ROLE_ID_REVIEWER));
-        $templateMgr->assign('userCountReader', $userService->countUsersByRole($context, \Role::ROLE_ID_READER));
 
         $submissionService = new SubmissionService();
         $templateMgr->assign('submissions', $submissionService->getEditorialStatsByYear($context, $year));
@@ -78,6 +77,6 @@ class StatsPageHandler extends PageHandler
         $templateMgr->assign('year', $year);
 
 
-        return $templateMgr->display($this->plugin->getTemplateResource('stametrics2.tpl'));
+        return $templateMgr->display($this->plugin->getTemplateResource('stametrics.tpl'));
     }
 }
