@@ -32,7 +32,7 @@
             }]
         }
 
-        const configBar = {
+        const config1 = {
             type: 'bar',
             data: data,
             options: {
@@ -47,7 +47,7 @@
 
 
         const ctx = document.getElementById('myChart').getContext('2d');
-        const myChart = new Chart(ctx, configBar);
+        const myChart = new Chart(ctx, config1);
 
 
         const dataUsers = {
@@ -69,7 +69,7 @@
             }]
         }
 
-        const config = {
+        const config2 = {
             type: 'doughnut',        // Tipo donut
             data: dataUsers,
             options: {
@@ -83,7 +83,72 @@
         };
 
         const ctx2 = document.getElementById('usersChart').getContext('2d');
-        new Chart(ctx2, config);
+        new Chart(ctx2, config2);
+
+
+        //grafica estadisticas descargas y visitas de aritculos
+        const articlesByYear = {$articlesByYear|json_encode};
+
+        // Extraemos los labels (meses) y los datos
+        const labels = articlesByYear.map(item => {
+            const monthStr = item.month.toString();       // "202501"
+            const month = monthStr.slice(4, 6);          // "01"
+            return month;
+        });
+        const totalInvestigations = articlesByYear.map(item => item.total_investigations);
+        const totalRequests = articlesByYear.map(item => item.total_requests);
+
+        const dataArticlesStatistics = {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Visitas',
+                    data: totalInvestigations,
+                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Descargas',
+                    data: totalRequests,
+                    backgroundColor: 'rgba(255, 99, 132, 0.7)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }
+            ]
+        }
+
+        const config3 = {
+            type: 'bar',
+            data: dataArticlesStatistics,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' },
+                    title: {
+                        display: true,
+                        text: 'Estadísticas de Visitas y Descargas por Mes'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Visitas' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Mes (MM)' }
+                    }
+                }
+            }
+        };
+
+
+
+        const ctx3 = document.getElementById('articleStatisticsChart').getContext('2d');
+        new Chart(ctx3, config3);
+
+
+
     });
 </script>
 {* Extiende la plantilla frontal de OJS *}
@@ -221,6 +286,13 @@
 
 
     <hr><hr>
+    <div class="card">
+        <!-- Canvas para la gráfica -->
+        <canvas id="articleStatisticsChart" width="800" height="400"></canvas>
+        <pre>
+        {$articlesByYear|@print_r}
+        </pre>
+    </div>
     <div class="card">
 
 

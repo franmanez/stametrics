@@ -90,7 +90,7 @@ class StametricsPlugin extends GenericPlugin
             $templateMgr = TemplateManager::getManager($request);
 
             //$output .= 'MI PLUGIN FUNCIONA';
-            $output .= '<li class="nav-item"><a class="nav-link" href="' . $templateMgr->smartyUrl(array('page' => 'stats'), $smarty) . '" target="_parent">' . $templateMgr->smartyTranslate(array('key' => 'plugins.generic.stametrics.displayName'), $smarty) . '</a></li>';
+            $output .= '<li class="nav-item"><a class="nav-link" href="' . $templateMgr->smartyUrl(array('page' => 'stametrics'), $smarty) . '" target="_parent">' . $templateMgr->smartyTranslate(array('key' => 'plugins.generic.stametrics.displayName'), $smarty) . '</a></li>';
         }
         return false;
     }
@@ -103,7 +103,7 @@ class StametricsPlugin extends GenericPlugin
         $page =& $args[0];
         $handler =& $args[3];
 
-        if ($this->getEnabled() && $page === 'stats') {
+        if ($this->getEnabled() && $page === 'stametrics') {
             $handler = new StatsPageHandler($this);
             return true;
         }

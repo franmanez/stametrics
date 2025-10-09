@@ -24,12 +24,24 @@ class SubmissionService
     public function getEditorialStatsByYear($context, int $year): array
     {
 
+        $result1 = DB::table('publications')
+            ->join('submissions', 'submissions.current_publication_id', '=', 'publications.publication_id')
+            ->selectRaw('submissions.status, COUNT(*) as total')
+            ->where('submissions.context_id', $context->getId())
+            ->whereYear('publications.date_published', $year)
+            ->groupBy('submissions.status')
+            ->get();
+
+
         $result = DB::table('submissions')
             ->selectRaw('status, COUNT(*) as total')
             ->where('context_id', $context->getId())
+            ->where('status', '!=', 3)
             ->whereYear('date_submitted', $year)
             ->groupBy('status')
             ->get();
+
+        $result = $result->concat($result1);
 
         $stats = [
             'received' => 0,

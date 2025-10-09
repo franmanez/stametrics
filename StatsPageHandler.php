@@ -5,6 +5,7 @@ namespace APP\plugins\generic\stametrics;
 use APP\API\v1\stats\editorial\StatsEditorialController;
 use APP\core\Application;
 use APP\facades\Repo;
+use APP\plugins\generic\stametrics\services\ArticleStatisticsService;
 use APP\plugins\generic\stametrics\services\SubmissionService;
 use APP\plugins\generic\stametrics\services\UserService;
 use APP\template\TemplateManager;
@@ -51,6 +52,12 @@ class StatsPageHandler extends PageHandler
             $year = date('Y'); // o 2025 por defecto
         }
 
+        // Detectar la tab según el URL
+        $currentTab = $_GET['tab'] ?? 'articles';
+        $templateMgr->assign('currentTab', $currentTab);
+
+        //$templateMgr->assign('baseUrl', $request->getBaseUrl());
+
         $userService = new UserService();
 
         // Pasar al template
@@ -63,10 +70,14 @@ class StatsPageHandler extends PageHandler
         $submissionService = new SubmissionService();
         $templateMgr->assign('submissions', $submissionService->getEditorialStatsByYear($context, $year));
 
+
+        $articleStatisticsService = new ArticleStatisticsService();
+        $templateMgr->assign('articlesByYear', $articleStatisticsService->getArticleMetricsByYear($context, $year));
+
+
         $templateMgr->assign('year', $year);
 
 
-
-        return $templateMgr->display($this->plugin->getTemplateResource('stats.tpl'));
+        return $templateMgr->display($this->plugin->getTemplateResource('stametrics2.tpl'));
     }
 }
